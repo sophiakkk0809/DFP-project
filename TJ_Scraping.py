@@ -69,7 +69,7 @@ def _scrape_page(driver):
     for prod in product_entries:
         prod_details = prod.strip().split('\n')
         # dictionary format = product name: (category, price, quantity)
-        _prod_dict[prod_details[1]] = (prod_details[0], prod_details[2].split('/')[0], prod_details[2].split('/')[1])
+        _prod_dict[prod_details[1]] = (prod_details[0], prod_details[2].split('/')[0].replace("$", ""), prod_details[2].split('/')[1])
 
 
 def scrape_data():
