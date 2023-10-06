@@ -2,25 +2,22 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 from collections import defaultdict
-import pandas as pd
 
 
-driver = webdriver.Chrome()
-
-
-def _get_categories_link() -> list:
+def _get_categories_link(driver: webdriver.Chrome) -> list:
+    """
+    This class returns a list of paths to the different categories in target
+    """
     path = "https://www.target.com/c/shop-all-categories/-/N-5xsxf?prehydrateClick=true"
     driver.get(path)
     # wait for categories to exist
     categories = WebDriverWait(driver,50).until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="pageBodyContainer"]/div/div[1]/div/div[14]'))
             )
-    # # get the categories list
+    # get the categories list
     categories_ls = categories.find_elements(By.CLASS_NAME, "cQxfob")
     links = []
-    # time.sleep(1)
     for category in categories_ls[1::]:
         cat = category.find_elements(By.TAG_NAME, 'a')
         links.append(cat[0].get_attribute('href'))
@@ -28,7 +25,10 @@ def _get_categories_link() -> list:
     return links
 
 
-def _get_subcategories_link(link: str) -> list:
+def _get_subcategories_link(link: str, driver: webdriver.Chrome) -> list:
+    """
+    This class returns a list of paths to the different sub Grocery categories in target
+    """
     driver.get(link)
     subs = WebDriverWait(driver,50).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "jUzyfh"))
@@ -43,7 +43,11 @@ def _get_subcategories_link(link: str) -> list:
     return href_subcat
 
 
-def _get_data_with_path(path: str, sub_category: str):
+def _get_data_with_path(path: str, sub_category: str, driver: webdriver.Chrome):
+    """
+    this function returns a dictionary with product data for the path give
+    with the form { product_name: (category, price, quantity)  }
+    """
     if ',' in sub_category:
         sub_category = sub_category.split(",")
         sub_category = sub_category[0]
@@ -98,6 +102,9 @@ def _get_data_with_path(path: str, sub_category: str):
 
 
 def write_to_file(data: dict, path: str):
+    """
+    this functions writes a dictionary data to the given path
+    """
     f = open(path, 'w')
 
     # 'product name' :(category, price, quantity)
@@ -109,8 +116,11 @@ def write_to_file(data: dict, path: str):
     f.close()
 
 
-def get_dictionary_from_csv(path: str) -> dict:
-    #takes a path as parameter and returns a dictionary of tuples with the data of the csv
+def load_data(path: str) -> dict:
+    """
+    This function takes a path as parameter and returns a dictionary of tuples with the form
+    {name: (category, price, quantity)} filled with the data of the csv
+    """
     file = open(path, 'r')
     data = {}
     i = 0
@@ -127,17 +137,23 @@ def get_dictionary_from_csv(path: str) -> dict:
 
 
 def get_all_data() -> dict:
-    categories_links = _get_categories_link()
+    """
+    this function returns a dictionary of the form { name: (category, price, quantity) } with all the data from target
+    """
+    driver = webdriver.Chrome()
+    categories_links = _get_categories_link(driver)
     links_subcat = []
     for link in categories_links:
-        links_subcat.extend(_get_subcategories_link(link))
+        links_subcat.extend(_get_subcategories_link(link, driver))
 
     links_subcat = links_subcat[2::]
     all_data = {}
     for path, sub_category in links_subcat:
-        all_data.update(_get_data_with_path(path, sub_category))
+        all_data.update(_get_data_with_path(path, sub_category, driver))
     return all_data
 
-# print(get_dictionary_from_csv('prices3.csv'))
+
+
 # data = get_all_data()
+# print(data)
 # write_to_file(data,'prices3.csv')
