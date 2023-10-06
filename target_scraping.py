@@ -9,10 +9,11 @@ import pandas as pd
 
 driver = webdriver.Chrome()
 
-def get_categories_link():
+
+def _get_categories_link() -> list:
     path = "https://www.target.com/c/shop-all-categories/-/N-5xsxf?prehydrateClick=true"
     driver.get(path)
-    #wait for categories to exist
+    # wait for categories to exist
     categories = WebDriverWait(driver,50).until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="pageBodyContainer"]/div/div[1]/div/div[14]'))
             )
@@ -26,7 +27,8 @@ def get_categories_link():
 
     return links
 
-def get_subcategories_link(link):
+
+def _get_subcategories_link(link: str) -> list:
     driver.get(link)
     subs = WebDriverWait(driver,50).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "jUzyfh"))
@@ -39,14 +41,9 @@ def get_subcategories_link(link):
         sub_cat = item.find_elements(By.TAG_NAME, 'span')
         href_subcat.append((h, sub_cat[0].text))
     return href_subcat
-    # return [item.find_elements(By.TAG_NAME, 'a')[0].get_attribute('href') for item in subs_list]
 
-def get_data(path, sub_category):
-    #Fresh Dips
-    print(sub_category)
-    # if sub_category == 'Fresh Dips' or sub_category == 'Salsas & Hummus':
-    #     print(path)
-    print(path)
+
+def _get_data_with_path(path: str, sub_category: str):
     if ',' in sub_category:
         sub_category = sub_category.split(",")
         sub_category = sub_category[0]
@@ -63,7 +60,7 @@ def get_data(path, sub_category):
         articles = main.find_elements(By.CLASS_NAME, "dOpyUp")
 
         for article in articles:
-            art = []
+            art = [sub_category]
             title = article.find_elements(By.CLASS_NAME, "iZqUcy")
             if not title:
                 continue
@@ -93,45 +90,54 @@ def get_data(path, sub_category):
                 print(price)
                 continue
 
-            art.append(sub_category)
             art.append(0)
-            if len(art) > 3:
-                print(art)
             data[t] = tuple(art)
-            print(t, data[t])
 
     finally:
-        # time.sleep(1)
         return data
 
-def write_to_file(data):
-    f = open('prices2.csv', 'w')
 
-    f.write('name, price, category, quantity\n')
+def write_to_file(data: dict, path: str):
+    f = open(path, 'w')
+
+    # 'product name' :(category, price, quantity)
+    f.write('name, category, price, quantity\n')
     for key, item in data.items():
         key = key.replace(",", "")
         f.write(key + "," + str(item[0]) + "," + str(item[1]) + "," + str(item[2]) + "\n")
 
     f.close()
 
-if __name__ == "__main__":
-    categories_links = get_categories_link()
+
+def get_dictionary_from_csv(path: str) -> dict:
+    #takes a path as parameter and returns a dictionary of tuples with the data of the csv
+    file = open(path, 'r')
+    data = {}
+    i = 0
+    for line in file:
+        if i == 0:
+            i+=1
+            continue
+        else:
+            name, category, price, quantity = line.strip().split(",")
+            price, quantity = float(price), int(quantity)
+            data[name] = (category, price, quantity)
+
+    return data
+
+
+def get_all_data() -> dict:
+    categories_links = _get_categories_link()
     links_subcat = []
     for link in categories_links:
-        links_subcat.extend(get_subcategories_link(link))
+        links_subcat.extend(_get_subcategories_link(link))
 
     links_subcat = links_subcat[2::]
     all_data = {}
-    # i = 0
     for path, sub_category in links_subcat:
-        # print(i)
-        all_data.update(get_data(path, sub_category))
-        # i+=1
-        # if i == 1:
-        #     break
+        all_data.update(_get_data_with_path(path, sub_category))
+    return all_data
 
-    print("\n"*5)
-    print("HERE")
-    print(all_data)
-    write_to_file(all_data)
-
+# print(get_dictionary_from_csv('prices3.csv'))
+# data = get_all_data()
+# write_to_file(data,'prices3.csv')
