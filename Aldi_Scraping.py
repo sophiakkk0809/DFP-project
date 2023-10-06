@@ -4,15 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import StaleElementReferenceException
-from selenium.common.exceptions import ElementClickInterceptedException
-from selenium.common.exceptions import ElementNotInteractableException
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from html import unescape
-from bs4 import BeautifulSoup
-import requests
 import time
 import re
 import pandas as pd
@@ -170,26 +163,19 @@ def scrape_from_web():
 
 def scrape_to_csv():
     all_df = scrape_from_web()
-    all_df.to_csv('/ALL_DF.csv')
+    all_df.to_csv('ALL_DF.csv')
 
 
-def csv_to_dict():
+def load_data():
     output_dict={}
-    df = pd.read_csv('/ALL_DF.csv')
+    df = pd.read_csv('ALL_DF.csv')
     for i in df.iterrows():
-        output_dict[i['Product Name']] = (i['Category'],i['Price'],None)
+        # print(i)
+        # print(type(i))
+        output_dict[i[1]['Product Name']] = (i[1]['Category'],i[1]['price'][1::],None)
 
     return output_dict
 
-
-def main_read():
-    # scrape new product data from the website
-    #scrape_to_csv()
-
-    # load existing product data from preloaded_tjs.csv
-    csv_to_dict()
-    
-
 # Check if the script is run directly
 if __name__ == "__main__":
-    main_read()
+    load_data()
