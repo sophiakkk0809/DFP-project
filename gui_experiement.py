@@ -35,7 +35,7 @@ image_path = "/Users/sophiakuo/Documents/23F-Python/Project/Code/healthyfood.jpg
 image = Image.open(image_path)
 original_width, original_height = image.size
 new_height = int(original_height * 0.6)
-image = image.resize((original_width, new_height), Image.ANTIALIAS)dd
+image = image.resize((original_width, new_height), Image.ANTIALIAS)
 photo = ImageTk.PhotoImage(image, master=root)
 #Topic
 label1 = Label(topframe, text = 'Save Mart', font=('Futura', 32),relief='ridge', borderwidth=7, compound="top", image=photo)
