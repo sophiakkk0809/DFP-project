@@ -18,6 +18,24 @@ Alex Hewitson
 _prod_dict = {}
 
 
+def _scrape_page(driver):
+    """
+    Puts the products in the TJs page into a dictionary in the format of product name: (category, price, quantity)
+    """
+
+    # get the list of products from the HTML
+    prods_list_str = driver.find_element(By.CLASS_NAME, "ProductList_productList__list__3-dGs").text
+
+    # split individual products into a list
+    product_entries = prods_list_str.split("ADD TO LIST\n")
+
+    # format each product's information and add to the dictionary
+    for prod in product_entries:
+        prod_details = prod.strip().split('\n')
+        # dictionary format = product name: (category, price, quantity)
+        _prod_dict[prod_details[1]] = (prod_details[0], prod_details[2].split('/')[0].replace("$", ""), prod_details[2].split('/')[1])
+
+
 def _scrape_all_products(driver):
     """
     Logic for clicking the next page button and calling the scrape_page function when appropriate
@@ -52,24 +70,6 @@ def _scrape_all_products(driver):
             # handle errors
             print(f"Error: {e}")
             break
-
-
-def _scrape_page(driver):
-    """
-    Puts the products in the TJs page into a dictionary in the format of product name: (category, price, quantity)
-    """
-
-    # get the list of products from the HTML
-    prods_list_str = driver.find_element(By.CLASS_NAME, "ProductList_productList__list__3-dGs").text
-
-    # split individual products into a list
-    product_entries = prods_list_str.split("ADD TO LIST\n")
-
-    # format each product's information and add to the dictionary
-    for prod in product_entries:
-        prod_details = prod.strip().split('\n')
-        # dictionary format = product name: (category, price, quantity)
-        _prod_dict[prod_details[1]] = (prod_details[0], prod_details[2].split('/')[0].replace("$", ""), prod_details[2].split('/')[1])
 
 
 def scrape_data():
