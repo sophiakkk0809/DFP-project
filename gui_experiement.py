@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.font as tkFont
 from PIL import ImageTk, Image
+import model as md
 root = Tk()
 
 #input type
@@ -12,7 +13,7 @@ for i,j in aldi_dict.items():
 location_list = ['Shadyside','squirrel hill']
 
 #output type
-all_result = {'almondss milk':('milk','$4',3), 'aldiss eggs':('milk','$1.99',5),'almsond milk':('milk','$4',3), 'aldssi eggs':('milk','$1.99',5),'almond milk':('milk','$4',3), 'aldi eggs':('milk','$1.99',5), 'rib eye':('meat','$17.39',2), 'ice cream':('Frozen','$5.90',61),'oat milk':('milk','$4',3), 'eggs':('milk','$1.99',5), 'rib eye premium':('meat','$17.39',2), 'ch ice cream':('Frozen','$5.90',61),'almond milkss':('milk','$4',3), 'aldi eggsss':('milk','$1.99',5), 'rib eyess':('meat','$17.39',2), 'ice creamss':('Frozen','$5.90',61)}
+#all_result = {'almondss milk':('milk','$4',3), 'aldiss eggs':('milk','$1.99',5),'almsond milk':('milk','$4',3), 'aldssi eggs':('milk','$1.99',5),'almond milk':('milk','$4',3), 'aldi eggs':('milk','$1.99',5), 'rib eye':('meat','$17.39',2), 'ice cream':('Frozen','$5.90',61),'oat milk':('milk','$4',3), 'eggs':('milk','$1.99',5), 'rib eye premium':('meat','$17.39',2), 'ch ice cream':('Frozen','$5.90',61),'almond milkss':('milk','$4',3), 'aldi eggsss':('milk','$1.99',5), 'rib eyess':('meat','$17.39',2), 'ice creamss':('Frozen','$5.90',61)}
 
 # format settings
 padding = {'padx':15, 'pady':10} # set widgets space
@@ -93,8 +94,18 @@ search_btn = Button(searchframe, text="Search", borderwidth=3, relief="raised", 
 search_btn.pack(**padding, ipady=5)
 
 # Selected_cat
-# Selected_loc
-# Searched
+# Selected_loc (3.4 miles(str), 10min (str))
+
+
+cheapest = md.find_cheapest_product('Milk')
+all_result={}
+print(cheapest)
+all_result[cheapest[0]] = cheapest[1]
+# (store name, (product name, category, price as string, quantity))
+
+# return two dictionary 
+#   1. result min price product 
+#   2. tuple of location
 
 
 ## Generate a result list by searched word and selected_cat & location

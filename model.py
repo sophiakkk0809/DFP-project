@@ -1,11 +1,11 @@
-import Target_Scraping as target
+import target_scraping as target
 import Aldi_Scraping as aldi
 import TJ_Scraping as tj
 
 import sys
 
 # call preloaded data by default
-target_dict = target.load_data()
+target_dict = target.load_data('/Users/sophiakuo/Documents/23F-Python/Project/Code/DFP-project/preloaded_targetdata.csv')
 aldi_dict = aldi.load_data()
 tj_dict = tj.load_data()
 

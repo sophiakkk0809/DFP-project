@@ -163,12 +163,12 @@ def scrape_from_web():
 
 def scrape_to_csv():
     all_df = scrape_from_web()
-    all_df.to_csv('ALL_DF.csv')
+    all_df.to_csv('/Users/sophiakuo/Documents/23F-Python/Project/Code/DFP-project/ALL_DF.csv')
 
 
 def load_data():
     output_dict={}
-    df = pd.read_csv('ALL_DF.csv')
+    df = pd.read_csv('/Users/sophiakuo/Documents/23F-Python/Project/Code/DFP-project/ALL_DF.csv')
     for i in df.iterrows():
         # print(i)
         # print(type(i))
