@@ -5,7 +5,7 @@ import csv
 import sys
 
 # call preloaded data by default
-target_dict = target.load_data('preloaded_targetdata.csv')
+target_dict = target.load_data('support_files/preloaded_target.csv')
 aldi_dict = aldi.load_data()
 tj_dict = tj.load_data()
 
@@ -62,8 +62,11 @@ def _find_cheapest(keyword):
         min = tj_min
         min_name = 'Trader Joes'
 
-    # return cheapest product as (store name, (product name, category, price as string, quantity))
-    return (min_name, min[1])
+    if len(min)>1:
+        # return cheapest product as (store name, (product name, category, price as string, quantity))
+        return (min_name, min[1])
+    else:
+        return ('unable to find "'+keyword+'" in the groceries')
 
 #TODO: implement getting the distance to a store
 """ def find_distance(store_name):
@@ -90,4 +93,5 @@ def get_all_cat():
     cw.writerow(list(all_cat))
 
 
-print(_find_cheapest('yogurt'))
+print(_find_cheapest('milk'))
+# get_all_cat()

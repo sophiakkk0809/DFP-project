@@ -121,7 +121,7 @@ def load_data(path: str) -> dict:
     This function takes a path as parameter and returns a dictionary of tuples with the form
     {name: (category, price, quantity)} filled with the data of the csv
     """
-    file = open(path, 'r')
+    file = open(path, 'r',encoding = 'latin1')
     data = {}
     i = 0
     for line in file:

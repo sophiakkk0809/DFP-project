@@ -163,12 +163,12 @@ def scrape_from_web():
 
 def scrape_to_csv():
     all_df = scrape_from_web()
-    all_df.to_csv('preload_ALDI.csv')
+    all_df.to_csv('support_files/preload_aldi.csv')
 
 
 def load_data():
     output_dict={}
-    df = pd.read_csv('preload_ALDI.csv')
+    df = pd.read_csv('support_files/preload_aldi.csv')
     for i in df.iterrows():
         # print(i)
         # print(type(i))
