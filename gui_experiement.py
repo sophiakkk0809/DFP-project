@@ -4,16 +4,29 @@ from PIL import ImageTk, Image
 import model as md
 root = Tk()
 
-#input type
-aldi_dict = {'almond milk':('diaries','$4',3), 'aldi eggs':('diaries','$1.99',5), 'rib eye':('meat','$17.39',2), 'ice cream':('Frozen','$5.90',61)}
-tj_dict = {'oatmilk':('milk and eggs','$4.53',3), 'TJeggs':('milk and eggs','$2.34',5), 'rib eye premium':('meat','$31.39',2), 'Hagendaze':('Desert','$43.30',61)}
-category_set = []
-for i,j in aldi_dict.items():
-    category_set.append(j[0])
-location_list = ['Shadyside','squirrel hill']
+category_set = [
+    "Milk Products",
+    "Cheeses",
+    "Eggs",
+    "Yogurt",
+    "Snacks",
+    "Condiments & Spreads",
+    "Prepared & Packaged Meals",
+    "Meat",
+    "Seafood",
+    "Bakery Items",
+    "Pasta & Grains",
+    "Frozen Foods",
+    "Fresh Produce",
+    "Sweet & Baking",
+    "Beverages",
+    "Personal & Household Items",
+    "Baby Products",
+    "Nuts & Seeds",
+    "Vegetarian & Vegan Options",
+    "Seasonal & Special Items"
+]
 
-#output type
-#all_result = {'almondss milk':('milk','$4',3), 'aldiss eggs':('milk','$1.99',5),'almsond milk':('milk','$4',3), 'aldssi eggs':('milk','$1.99',5),'almond milk':('milk','$4',3), 'aldi eggs':('milk','$1.99',5), 'rib eye':('meat','$17.39',2), 'ice cream':('Frozen','$5.90',61),'oat milk':('milk','$4',3), 'eggs':('milk','$1.99',5), 'rib eye premium':('meat','$17.39',2), 'ch ice cream':('Frozen','$5.90',61),'almond milkss':('milk','$4',3), 'aldi eggsss':('milk','$1.99',5), 'rib eyess':('meat','$17.39',2), 'ice creamss':('Frozen','$5.90',61)}
 
 # format settings
 padding = {'padx':15, 'pady':10} # set widgets space
@@ -58,21 +71,21 @@ category_menu.config(font=cat_font)
 category_menu.pack(**padding, fill=X)
 Selected_cat = cat_value.get()
 
-#Location
-lf2= LabelFrame(optionframe, text='Location', font=('Futura', 14))
-lf2.pack(**padding, ipadx=150, ipady=13, anchor=NW, side=TOP, fill=X)
-#label
-label2 = Label(lf2, text = 'Select a location', font=('Futura', 18))
-label2.pack(fill=X)
-#option menu
-loc_value = StringVar(optionframe)
-loc_value.set("Select")
-location_str = set(location_list)
-loc_font = tkFont.Font(family='Futura',size=15)
-location_menu = OptionMenu(lf2, loc_value, *location_str)
-location_menu.config(font=loc_font)
-location_menu.pack(**padding, fill=X)
-Selected_loc = loc_value.get()
+# #Location
+# lf2= LabelFrame(optionframe, text='Location', font=('Futura', 14))
+# lf2.pack(**padding, ipadx=150, ipady=13, anchor=NW, side=TOP, fill=X)
+# #label
+# label2 = Label(lf2, text = 'Select a location', font=('Futura', 18))
+# label2.pack(fill=X)
+# #option menu
+# loc_value = StringVar(optionframe)
+# loc_value.set("Select")
+# location_str = set(location_list)
+# loc_font = tkFont.Font(family='Futura',size=15)
+# location_menu = OptionMenu(lf2, loc_value, *location_str)
+# location_menu.config(font=loc_font)
+# location_menu.pack(**padding, fill=X)
+# Selected_loc = loc_value.get()
 
 
 #Define a function to clear the content of the text widget
@@ -80,89 +93,108 @@ def click_clear_default(event):
    search_entry.configure(state=NORMAL)
    search_entry.delete(0, END)
    search_entry.unbind('<Button-1>', clicked)
-# searchbox
-search = Label(searchframe, text="Search Product", font=('Futura', 18))
+# Search for location
+search = Label(searchframe, text="Search Location", font=('Futura', 18))
 search.pack(fill=X)
 search_text = StringVar()
 search_entry = Entry(searchframe,textvariable = search_text, width = 50, fg='gray', font=('Futura', 15))
-search_entry.insert(0, "Search by product name/ brand/ product category")
-search_entry.pack(**padding, ipadx = 100, ipady = 10, side=LEFT)
+search_entry.insert(0, "Type in your address to find the nearest options")
+search_entry.pack(**padding, ipadx = 60, ipady = 10, side=LEFT)
 clicked = search_entry.bind('<Button-1>', click_clear_default)
-Searched = search_text.get()
-# SEARCH
+Selected_loc = search_text.get()
+# SEARCH button
 search_btn = Button(searchframe, text="Search", borderwidth=3, relief="raised", font=('Futura', 20))
-search_btn.pack(**padding, ipady=5)
+search_btn.pack(**padding, ipady=5, side = LEFT)
+# CLEAR button
+clear_btn = Button(searchframe, text="Clear", borderwidth=3, relief="raised", font=('Futura', 20))
+clear_btn.pack(ipady=5, side = LEFT)
 
-# Selected_cat
-# Selected_loc (3.4 miles(str), 10min (str))
+# Selected_cat - chosen category
+# Selected_loc - input address
 
 
-cheapest = md.find_cheapest_product('Milk')
-all_result={}
-print(cheapest)
-all_result[cheapest[0]] = cheapest[1]
-# (store name, (product name, category, price as string, quantity))
+def get_product(Selected_cat):
+    cheapest = md._find_cheapest(Selected_cat)
+    all_result=cheapest
+
+    ### if not find need to output something instead than have error 
+    # .........
+    ###
+    return all_result
+    # (store name, (product name, category, price as string, quantity))
 
 # return two dictionary 
 #   1. result min price product 
 #   2. tuple of location
+def get_location(Selected_loc): # input the user address
+
+    #### add api 
+    # .........
+    ####
+    
+    loc_result = {'aldi':('3.5 miles','30 min'),'tj':('0.6 miles','3 min'),'target':('2.1 miles','17 min')}
+    return loc_result 
+    # (3.4 miles(str), 10min (str))
 
 
-## Generate a result list by searched word and selected_cat & location
-def find_product():
-    print(all_result)
 
-# RESULT
 result_canvas = Canvas(resultframe, height=100, width=100)
 
-result_scrollbar = Scrollbar(resultframe, orient="horizontal", command=result_canvas.xview)
-result_canvas.config(scrollregion=(0,0,3000,700), xscrollcommand=result_scrollbar.set)
+def build_canvas():
+    # RESULT
+    result_scrollbar = Scrollbar(resultframe, orient="horizontal", command=result_canvas.xview)
+    result_canvas.config(scrollregion=(0,0,3000,700), xscrollcommand=result_scrollbar.set)
 
-result_scrollbar.pack(side=BOTTOM, fill=X)
-result_canvas.pack(ipadx=450, ipady=200, fill=BOTH)
+    result_scrollbar.pack(side=BOTTOM, fill=X)
+    result_canvas.pack(ipadx=450, ipady=200, fill=BOTH)
 
-resultframe1 = Frame(resultframe)
-result_canvas.create_window(450,160,window=resultframe1)
+    resultframe1 = Frame(resultframe)
+    result_canvas.create_window(450,160,window=resultframe1)
+
+    return result_canvas,resultframe1
+
+def clear_canvas():
+    result_canvas.delete(ALL)
+    print('cleared')
+
 
 def show_results():
-    for i,v in all_result.items():
+    result_canvas,resultframe1 = build_canvas()
+    Selected_cat = cat_value.get()
+    Selected_loc = search_text.get()
+    all_result = get_product(Selected_cat.lower())
+    # ('Aldi', ('2% Milk Reduced Fat American Cheese Singles, 16 count', 'dairy-eggs', '2.09', None))
+    all_location = get_location(Selected_loc)
+    for i in range(1):
         #output type
         #all_result = {'almond milk':('milk','$4',3), 'aldi eggs':('milk','$1.99',5), 'rib eye':('meat','$17.39',2), 'ice cream':('Frozen','$5.90',61)}
-        Cat = i
-        product = v[0]
-        price = v[1]
-        quantity = v[2]
+        shop = all_result[0]
+        Cat = all_result[1][1]
+        product = all_result[1][0]
+        price = all_result[1][2]
         result= LabelFrame(resultframe1)
-        result.pack(**padding, ipadx=100,ipady=150, side=LEFT, fill=Y)
+        result.pack(**padding, ipadx=200,ipady=150, side=LEFT, fill=Y)
         result.pack_propagate(0)
-        cat_label = Label(result, text = product , font=('Futura', 18))
-        cat_label.pack(**padding, ipady=10)
-        product_label = Label(result, text = Cat , font=('Futura', 20))
+        product_label = Label(result, text = product , font=('Futura', 21 ), wraplength=300)
         product_label.pack(**padding, ipady=10)
+        cat_label = Label(result, text = 'Category : '+Cat , font=('Futura', 18))
+        cat_label.pack(**padding, ipady=10)
         price_label = Label(result, text = "Price : "+price , font=('Futura', 15))
         price_label.pack(**padding, ipady=5)
-        quantity_label = Label(result, text ="Quantity : "+str(quantity) , font=('Futura', 15))
-        quantity_label.pack(**padding, ipady=5)
+        if(shop=='Aldi'):
+            price_label = Label(result, text = "Location : "+str(all_location['aldi']), font=('Futura', 15))
+            price_label.pack(**padding, ipady=5)
+        elif(shop=='Target'):
+            price_label = Label(result, text = "Location : "+str(all_location['target']) , font=('Futura', 15))
+            price_label.pack(**padding, ipady=5)
+        else:
+            price_label = Label(result, text = "Location : "+str(all_location['tj']) , font=('Futura', 15))
+            price_label.pack(**padding, ipady=5)
 
+    return result_canvas
 
-    
-    # result1= LabelFrame(resultframe1, bg='blue')
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
-    # result1= LabelFrame(resultframe1)
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
-    # result1= LabelFrame(resultframe1)
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
-    # result1= LabelFrame(resultframe1)
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
-    # result1= LabelFrame(resultframe1)
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
-    # result1= LabelFrame(resultframe1)
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
-    # result1= LabelFrame(resultframe1)
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
-    # result1= LabelFrame(resultframe1)
-    # result1.pack(**padding, ipadx=100, side=LEFT, fill=Y)
 
 search_btn.config(command=show_results)
+clear_btn.config(command=clear_canvas)
 
 root.mainloop()

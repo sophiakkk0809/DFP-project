@@ -155,7 +155,7 @@ def get_all_data() -> dict:
 
 
 
-data = get_all_data()
-write_to_file(data,'/Users/sophiakuo/Documents/23F-Python/Project/Code/DFP-project/preloaded_targetdata.csv')
+# data = get_all_data()
+# write_to_file(data,'preloaded_targetdata.csv')
 # print(data)
 # write_to_file(data,'prices3.csv')

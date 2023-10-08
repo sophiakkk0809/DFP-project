@@ -1,11 +1,11 @@
 import target_scraping as target
 import Aldi_Scraping as aldi
 import TJ_Scraping as tj
-
+import csv
 import sys
 
 # call preloaded data by default
-target_dict = target.load_data('/Users/sophiakuo/Documents/23F-Python/Project/Code/DFP-project/preloaded_targetdata.csv')
+target_dict = target.load_data('preloaded_targetdata.csv')
 aldi_dict = aldi.load_data()
 tj_dict = tj.load_data()
 
@@ -82,3 +82,12 @@ def find_cheapest_product(keyword):
 
     #TODO: interface with the view - displaying the below information
     # display, prod[0]<string name of store>, and prod[1]<tup = (product name, category, price, quantity)> on the view
+
+
+def get_all_cat():
+    all_cat=set([i[0] for i in target_dict.values()]+[i[0] for i in tj_dict.values()]+[i[0] for i in aldi_dict.values()])
+    cw = csv.writer(open("cat_list.csv",'w'))
+    cw.writerow(list(all_cat))
+
+
+print(_find_cheapest('yogurt'))
