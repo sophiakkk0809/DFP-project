@@ -105,7 +105,7 @@ def load_data():
     
     _prod_dict.clear()
 
-    with open('/Users/sophiakuo/Documents/23F-Python/Project/Code/DFP-project/preloaded_tjs.csv', mode='r', newline='', encoding='ISO-8859-1') as file_input:
+    with open('support_files/preloaded_tj.csv', mode='r', newline='', encoding='ISO-8859-1') as file_input:
         reader = csv.DictReader(file_input)
         
         for row in reader:
@@ -140,7 +140,7 @@ def main():
     # scrape new product data from the website
     scrape_data()
 
-    # load existing product data from preloaded_tjs.csv
+    # load existing product data from preloaded_tj.csv
     #load_data()
 
     # write the dictionary of products to an output .csv file
