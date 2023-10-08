@@ -78,14 +78,14 @@ def _get_data_with_path(path: str, sub_category: str, driver: webdriver.Chrome):
             idx = price.find("$")
 
             end = -1
-            for j, letter in enumerate(price[idx+1:]):
+            for j, letter in enumerate(price[1:]):
                 if not letter.isnumeric() and letter != ".":
                     end = j
                     break
             if end <= 0:
                 continue
 
-            price = price[idx+1:end+1]
+            price = price[1:end+1]
 
             try:
                 art.append(float(price))
@@ -130,7 +130,7 @@ def load_data(path: str) -> dict:
             continue
         else:
             name, category, price, quantity = line.strip().split(",")
-            price, quantity = float(price), int(quantity)
+            price, quantity = str(price), int(quantity)
             data[name] = (category, price, quantity)
 
     return data
@@ -154,6 +154,8 @@ def get_all_data() -> dict:
 
 
 
+
 # data = get_all_data()
+# write_to_file(data,'preloaded_targetdata.csv')
 # print(data)
 # write_to_file(data,'prices3.csv')

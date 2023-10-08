@@ -105,7 +105,7 @@ def load_data():
     
     _prod_dict.clear()
 
-    with open('preloaded_tjs.csv', mode='r', newline='') as file_input:
+    with open('/Users/sophiakuo/Documents/23F-Python/Project/Code/DFP-project/preloaded_tjs.csv', mode='r', newline='', encoding='ISO-8859-1') as file_input:
         reader = csv.DictReader(file_input)
         
         for row in reader:
