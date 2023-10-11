@@ -162,8 +162,24 @@ def scrape_from_web():
 
 
 def scrape_to_csv():
+    print("Aldi Scraping in progress. This will take a few minutes...")
     all_df = scrape_from_web()
+    print("Finished Scraping")
     all_df.to_csv('support_files/preload_aldi.csv')
+
+
+def scrape_to_dict():
+    output_dict={}
+    print("Aldi Scraping in progress. This will take a few minutes...")
+    all_df = scrape_from_web()
+    print("Finished Scraping")
+    for i in all_df.iterrows():
+        # print(i)
+        # print(type(i))
+        output_dict[i[1]['Product Name']] = (i[1]['Category'],i[1]['price'][1::],None)
+
+    return output_dict
+    #all_df.to_csv('support_files/preload_aldi.csv')
 
 
 def load_data():
@@ -176,6 +192,9 @@ def load_data():
 
     return output_dict
 
+def main():
+    scrape_to_csv()
+
 # Check if the script is run directly
 if __name__ == "__main__":
-    load_data()
+    main()
