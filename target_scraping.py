@@ -140,6 +140,7 @@ def get_all_data() -> dict:
     """
     this function returns a dictionary of the form { name: (category, price, quantity) } with all the data from target
     """
+    print("Target Scraping in progress. This will take a few minutes...")
     driver = webdriver.Chrome()
     categories_links = _get_categories_link(driver)
     links_subcat = []
@@ -150,12 +151,20 @@ def get_all_data() -> dict:
     all_data = {}
     for path, sub_category in links_subcat:
         all_data.update(_get_data_with_path(path, sub_category, driver))
+
+
+    print("Finished Scraping")
     return all_data
 
 
+def main():
+    all_dict = get_all_data()
+    write_to_file(all_dict,'support_files/preloaded_target.csv')
 
+
+if __name__ == "__main__":
+    main()
 
 # data = get_all_data()
 # write_to_file(data,'preloaded_targetdata.csv')
 # print(data)
-# write_to_file(data,'prices3.csv')

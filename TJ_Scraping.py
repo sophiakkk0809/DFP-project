@@ -124,7 +124,7 @@ def _write_file():
     """
 
     # Open the CSV file for writing
-    with open('output.csv', 'w', newline='') as file_output:
+    with open('support_files/preload_tj.csv', 'w', newline='') as file_output:
     # Create a CSV writer object
         csv_writer = csv.writer(file_output)
         

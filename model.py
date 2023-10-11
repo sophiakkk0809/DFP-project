@@ -2,6 +2,7 @@ import target_scraping as target
 import Aldi_Scraping as aldi
 import TJ_Scraping as tj
 import csv
+import re
 import sys
 
 # call preloaded data by default
@@ -18,7 +19,7 @@ def refresh_data():
 
     target_dict = target.scrape_data()
     aldi_dict = aldi.scrape_data()
-    tj_dict = tj.scrape_data()
+    tj_dict = tj.main()
 
 
 def _search_store(prod_dict, keyword):
@@ -32,7 +33,7 @@ def _search_store(prod_dict, keyword):
         # format for product = (product name, (category, price, quantity))
         if keyword.lower() in product[0].lower():
             # strip the $ at the beginning of the price
-            price = float(product[1][1][1:])
+            price = float(re.findall("\d+", product[1][1][1:])[0])
             if price < min[0]:
                 # min = (price as a float, (product name, category, price as a string, quantity))
                 min = (price, (product[0], product[1][0], product[1][1], product[1][2]))
