@@ -29,6 +29,7 @@ def scrape_from_web():
     # open ALDI website
     options = Options()
     options.page_load_strategy = 'normal'
+    options.headless = True
     #options.add_experimental_option("detach", True)
     #options.add_argument("--incognito")
     driver = webdriver.Chrome(options=options)

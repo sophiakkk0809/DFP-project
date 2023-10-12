@@ -135,16 +135,24 @@ clear_btn.pack(ipady=5, side = LEFT)
 
 
 def refresh_data():
-    md.refresh_data()
-    now = datetime.datetime.now()
-    refreshed = Label(lf1, text = 'Latest data downloaded at : \n'+ now.strftime("%Y-%m-%d %H:%M:%S") , font=('Futura', 15))
-    refreshed.pack(**padding, fill=X) 
-
+    try:
+        md.refresh_data()
+        current_time = datetime.datetime.now()
+        refreshed = Label(lf1, text = 'Latest data downloaded at : \n'+ current_time.strftime("%Y-%m-%d %H:%M:%S") , font=('Futura', 15))
+        refreshed.pack(**padding, fill=X) 
+    except:
+        current_time = datetime.datetime.now()
+        refreshed = Label(lf1, text = 'Unable to refreshed data, Please close and open the app again' , font=('Futura', 14), wraplength=200)
+        refreshed.pack(**padding, fill=X) 
+    
+    
 
 
 def get_product(keyword):
-    cheapest = md._find_cheapest(keyword)
-
+    try:
+        cheapest = md._find_cheapest(keyword)
+    except:
+        cheapest = ('error',('error','error','0','0'))
     ### if not find need to output something instead than have error 
     # .........
     ###
