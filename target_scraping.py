@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -141,7 +142,10 @@ def get_all_data() -> dict:
     this function returns a dictionary of the form { name: (category, price, quantity) } with all the data from target
     """
     print("Target Scraping in progress. This will take a few minutes...")
-    driver = webdriver.Chrome()
+    options = Options()
+    options.page_load_strategy = 'normal'
+    options.add_argument('--headless=new')
+    driver = webdriver.Chrome(options=options)
     categories_links = _get_categories_link(driver)
     links_subcat = []
     for link in categories_links:
@@ -156,6 +160,10 @@ def get_all_data() -> dict:
     print("Finished Scraping")
     return all_data
 
+
+def scrape_data():
+    all_dict = get_all_data()
+    write_to_file(all_dict,'support_files/preloaded_target.csv')
 
 def main():
     all_dict = get_all_data()
