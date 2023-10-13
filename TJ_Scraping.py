@@ -149,4 +149,4 @@ def main():
 
 # Check if the script is run directly
 if __name__ == "__main__":
-    main()
+    scrape_data()

@@ -163,7 +163,7 @@ def get_all_data() -> dict:
 
 def scrape_data():
     all_dict = get_all_data()
-    write_to_file(all_dict,'support_files/preloaded_target.csv')
+    return all_dict
 
 def main():
     all_dict = get_all_data()
@@ -171,7 +171,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    scrape_data()
 
 # data = get_all_data()
 # write_to_file(data,'preloaded_targetdata.csv')

@@ -18,8 +18,9 @@ def refresh_data():
     global target_dict, aldi_dict, tj_dict
 
     target_dict = target.scrape_data()
-    aldi_dict = aldi.scrape_data()
-    tj_dict = tj.main()
+    aldi_dict = aldi.scrape_to_dict()
+    tj_dict = tj.scrape_data()
+
 
 
 def _search_store(prod_dict, keyword):
@@ -94,5 +95,9 @@ def get_all_cat():
     cw.writerow(list(all_cat))
 
 
-print(_find_cheapest('milk'))
+#print(_find_cheapest('milk'))
 # get_all_cat()
+
+
+if __name__ == "__main__":
+    refresh_data()

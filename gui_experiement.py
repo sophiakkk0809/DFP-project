@@ -4,6 +4,7 @@ from PIL import ImageTk, Image
 import model as md
 import Journey as loc
 import datetime
+import time
 root = Tk()
 
 category_set = [
@@ -95,7 +96,7 @@ search_cat_entry.pack(**padding,fill=X)
 clicked = search_cat_entry.bind('<Button-1>',lambda event : click_clear_default(event,default_text_1))
 Searched_text = search_cat_text.get()
 
-# #Location
+# #Location5
 # lf2= LabelFrame(optionframe, text='Location', font=('Futura', 14))
 # lf2.pack(**padding, ipadx=150, ipady=13, anchor=NW, side=TOP, fill=X)
 # #label
@@ -137,6 +138,7 @@ clear_btn.pack(ipady=5, side = LEFT)
 def refresh_data():
     try:
         md.refresh_data()
+        time.sleep(10)
         current_time = datetime.datetime.now()
         refreshed = Label(lf1, text = 'Latest data downloaded at : \n'+ current_time.strftime("%Y-%m-%d %H:%M:%S") , font=('Futura', 15))
         refreshed.pack(**padding, fill=X) 
@@ -144,7 +146,6 @@ def refresh_data():
         current_time = datetime.datetime.now()
         refreshed = Label(lf1, text = 'Unable to refreshed data, Please close and open the app again' , font=('Futura', 14), wraplength=200)
         refreshed.pack(**padding, fill=X) 
-    
     
 
 

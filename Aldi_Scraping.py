@@ -90,7 +90,7 @@ def scrape_from_web():
             
             ### Get Subcategory product cnt and max page
             max_page, product_count = get_pages_and_product_count(driver)
-            print(subcat,max_page,product_count)
+            #print(subcat,max_page,product_count)
             time.sleep(1)
             
             ### Create list to store item info
@@ -127,7 +127,7 @@ def scrape_from_web():
                 time.sleep(3)   
                 # count element on page to iterate over products on page
                 element_cnt = len(driver.find_elements(By.XPATH, "//div[contains(@class, 'product-teaser-item product-grid__item')]"))
-                print(element_cnt)
+                #print(element_cnt)
 
 
                 brand_lst = driver.find_elements(By.XPATH,"//div[@class='product-grid']//div[contains(@class,'brandname')]")
@@ -198,4 +198,4 @@ def main():
 
 # Check if the script is run directly
 if __name__ == "__main__":
-    main()
+    scrape_to_dict()
