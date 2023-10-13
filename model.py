@@ -1,6 +1,6 @@
 import target_scraping as target
-import Aldi_Scraping as aldi
-import TJ_Scraping as tj
+import aldi_Scraping as aldi
+import tj_Scraping as tj
 import csv
 import re
 import sys

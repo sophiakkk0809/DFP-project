@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter.font as tkFont
 from PIL import ImageTk, Image
 import model as md
-import Journey as loc
+import journey as loc
 import datetime
 import time
 root = Tk()
