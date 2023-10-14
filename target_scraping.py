@@ -144,7 +144,7 @@ def get_all_data() -> dict:
     print("Target Scraping in progress. This will take a few minutes...")
     options = Options()
     options.page_load_strategy = 'normal'
-    options.add_argument('--headless=new')
+    options.headless = True
     driver = webdriver.Chrome(options=options)
     categories_links = _get_categories_link(driver)
     links_subcat = []

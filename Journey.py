@@ -2,7 +2,7 @@ import googlemaps
 from pprint import pprint
 from datetime import datetime
 
-API = open('/Users/sophiakuo/Documents/23F-Python/Project/Code/gmap_api_config.txt', mode = 'r')
+API = open('gmap_api_config.txt', mode = 'r')
 API_KEY = API.read()
 
 def clean_origin(origin):
